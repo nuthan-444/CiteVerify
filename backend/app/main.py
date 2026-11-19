@@ -63,7 +63,19 @@ app.add_middleware(
 )
 
 
+@app.get("/", tags=["health"])
+@app.head("/", tags=["health"])
+def root():
+    """Root health check for cloud platform load balancers (Render, AWS, etc.)."""
+    return {
+        "status": "ok",
+        "service": "CiteVerify Backend",
+        "version": "1.0.0",
+    }
+
+
 @app.get("/api/health", tags=["health"])
+@app.head("/api/health", tags=["health"])
 def health_check():
     """Health check endpoint to verify backend status and connectivity."""
     return {
@@ -81,3 +93,10 @@ app.include_router(claims.router)
 app.include_router(citations.router)
 app.include_router(verification.router)
 app.include_router(reports.router)
+
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port)
+
