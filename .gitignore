@@ -1,0 +1,19 @@
+# Environments
+.env
+.env.local
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+dist/
+build/
+
+# App storage
+backend/uploads/*
+!backend/uploads/.gitkeep
+citeverify.db
+citeverify.db-wal
+citeverify.db-shm
