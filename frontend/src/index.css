@@ -149,4 +149,119 @@ body {
   scrollbar-width: none;
 }
 
+/* ─── Superconscious Ethereal Motion & Aura Animations ───────────── */
+@keyframes float-slow-1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(0.8deg); }
+}
+
+@keyframes float-slow-2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(14px) rotate(-1deg); }
+}
+
+@keyframes float-slow-3 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-8px) translateX(6px); }
+}
+
+@keyframes aura-breathe {
+  0%, 100% {
+    transform: scale(0.92) translate(-50%, -50%);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scale(1.12) translate(-50%, -50%);
+    opacity: 0.65;
+  }
+}
+
+@keyframes ripple-wave {
+  0% {
+    transform: scale(0.75);
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes shimmer-sweep {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes soundwave-pulse {
+  0%, 100% { transform: scaleY(0.2); }
+  50% { transform: scaleY(1); }
+}
+
+.animate-float-1 {
+  animation: float-slow-1 7s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: float-slow-2 8.5s ease-in-out infinite;
+}
+
+.animate-float-3 {
+  animation: float-slow-3 6.5s ease-in-out infinite;
+}
+
+.animate-aura {
+  animation: aura-breathe 8s ease-in-out infinite;
+  transform-origin: top left;
+}
+
+.animate-ripple-1 {
+  animation: ripple-wave 5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+.animate-ripple-2 {
+  animation: ripple-wave 5s cubic-bezier(0.25, 1, 0.5, 1) 2.5s infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 24s linear infinite;
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 30s linear infinite;
+}
+
+.animate-shimmer-text {
+  background-size: 200% auto;
+  animation: shimmer-sweep 6s linear infinite;
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+
 

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { LogOut, User as UserIcon, ShieldCheck, X, PanelLeft } from 'lucide-react';
+import { LogOut, User as UserIcon, X, PanelLeft } from 'lucide-react';
+import gsap from 'gsap';
 
 interface HeaderProps {
   showSidebar?: boolean;
@@ -16,6 +17,22 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const headerRef = useRef<HTMLElement>(null);
+
+  useLayoutEffect(() => {
+    if (!headerRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(headerRef.current!, {
+        y: -16,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power3.out',
+        clearProps: 'transform,opacity',
+      });
+    }, headerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -23,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-neutral-200 bg-white/95 backdrop-blur-md shadow-2xs">
+    <header ref={headerRef} className="sticky top-0 z-40 w-full border-b border-neutral-200 bg-white/95 backdrop-blur-md shadow-2xs">
       <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-15 sm:h-16 flex items-center justify-between gap-2">
         {/* Left side: Brand + Mobile Sidebar Button */}
         <div className="flex items-center gap-2 sm:gap-3">
@@ -40,8 +57,12 @@ export const Header: React.FC<HeaderProps> = ({
           )}
 
           <Link to="/" className="flex items-center gap-2 sm:gap-2.5 group">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-black flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform shrink-0">
-              <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden bg-black flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform shrink-0 border border-neutral-200">
+              <img
+                src="/b9ff45e8-1230-4597-aa59-50ec6193b39d.webp"
+                alt="CiteVerify Logo"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="flex items-center">
               <span className="text-lg sm:text-xl font-bold text-black tracking-tight">

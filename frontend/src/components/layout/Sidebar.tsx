@@ -13,6 +13,7 @@ import {
 import { useDocuments } from '../../hooks/useDocuments';
 import { LatticeLoader } from '../ui/LatticeLoader';
 import { GooeyInput } from '../ui/GooeyInput';
+import { SidebarSkeleton } from '../ui/Skeleton';
 
 interface SidebarProps {
   isMobileOpen?: boolean;
@@ -124,16 +125,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onCloseM
           {/* Scrollable History List */}
           <div className="flex-1 overflow-y-auto pr-1 space-y-1 max-h-[calc(100vh-22rem)] md:max-h-[calc(100vh-23rem)]">
             {isLoading && documents.length === 0 ? (
-              <div className="p-4 text-center">
-                <LatticeLoader
-                  grid={3}
-                  pattern="orbit"
-                  cellSize={4}
-                  gap={2}
-                  status="loading"
-                  className="mx-auto mb-2"
-                />
-                <p className="text-[11px] text-neutral-400">Loading history...</p>
+              <div className="p-2 space-y-1">
+                <SidebarSkeleton rows={6} />
               </div>
             ) : filteredDocs.length === 0 ? (
               <div className="p-4 text-center text-xs text-neutral-400">

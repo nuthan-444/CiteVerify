@@ -6,7 +6,6 @@ import { ClaimList } from '../components/claims/ClaimList';
 import { CitationList } from '../components/citations/CitationList';
 import { ReportView } from '../components/reports/ReportView';
 import { TrustScore } from '../components/verification/TrustScore';
-import { LatticeLoader } from '../components/ui/LatticeLoader';
 import { useDocuments } from '../hooks/useDocuments';
 import { documents as documentsApi } from '../services/api';
 import type { Document, Claim, Citation, VerificationResult } from '../types';
@@ -22,6 +21,8 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { formatDate } from '../lib/utils';
+import { DocumentHeaderSkeleton, TabContentSkeleton } from '../components/ui/Skeleton';
+import { usePageEntrance } from '../hooks/usePageEntrance';
 
 export const DocumentPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -32,6 +33,7 @@ export const DocumentPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'claims' | 'citations' | 'report'>('overview');
   const [loading, setLoading] = useState(true);
   const { fetchDocuments: refreshSidebarDocs } = useDocuments();
+  const pageRef = usePageEntrance();
 
   // Dynamic trust score calculation: uses doc.trust_score if present, or calculates directly from verifications
   const effectiveTrustScore = React.useMemo(() => {
@@ -102,15 +104,9 @@ export const DocumentPage: React.FC = () => {
   if (loading && !doc) {
     return (
       <Layout showSidebar>
-        <div className="flex items-center justify-center min-h-[350px] p-4">
-          <LatticeLoader
-            grid={3}
-            pattern="orbit"
-            cellSize={7}
-            gap={3.5}
-            label="Loading audit workspace..."
-            showTimer={true}
-          />
+        <div className="space-y-5 sm:space-y-6 max-w-6xl mx-auto">
+          <DocumentHeaderSkeleton />
+          <TabContentSkeleton rows={4} />
         </div>
       </Layout>
     );
@@ -132,9 +128,9 @@ export const DocumentPage: React.FC = () => {
 
   return (
     <Layout showSidebar>
-      <div className="space-y-5 sm:space-y-6 max-w-6xl mx-auto">
+      <div ref={pageRef} className="space-y-5 sm:space-y-6 max-w-6xl mx-auto">
         {/* Navigation & Header */}
-        <div>
+        <div data-animate>
           <Link
             to="/dashboard"
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-600 hover:text-black mb-2.5 transition-colors"
@@ -187,7 +183,7 @@ export const DocumentPage: React.FC = () => {
 
         {/* Tab Navigation */}
         {doc.status === 'completed' && (
-          <div className="space-y-5 sm:space-y-6">
+          <div data-animate className="space-y-5 sm:space-y-6">
             <div className="overflow-x-auto pb-1 -mx-3.5 px-3.5 sm:mx-0 sm:px-0 scrollbar-none border-b border-neutral-200 flex items-center gap-1 sm:gap-2">
               <button
                 onClick={() => setActiveTab('overview')}
@@ -331,9 +327,9 @@ export const DocumentPage: React.FC = () => {
               </div>
             )}
 
-            {activeTab === 'claims' && <ClaimList claims={claims} />}
+            {activeTab === 'claims' && <ClaimList claims={claims} isLoading={loading} />}
 
-            {activeTab === 'citations' && <CitationList citations={citations} />}
+            {activeTab === 'citations' && <CitationList citations={citations} isLoading={loading} />}
 
             {activeTab === 'report' && (
               <ReportView

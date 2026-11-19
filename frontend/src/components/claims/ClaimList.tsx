@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { ClaimCard } from './ClaimCard';
 import type { Claim } from '../../types';
 import { Filter, Search } from 'lucide-react';
+import { ClaimCardSkeleton } from '../ui/Skeleton';
+import { useStaggerIn } from '../../hooks/usePageEntrance';
 
 interface ClaimListProps {
   claims: Claim[];
+  isLoading?: boolean;
 }
 
-export const ClaimList: React.FC<ClaimListProps> = ({ claims }) => {
+export const ClaimList: React.FC<ClaimListProps> = ({ claims, isLoading }) => {
   const [filterVerdict, setFilterVerdict] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const listRef = useStaggerIn(0.06, 0.05);
 
   const filtered = claims.filter((claim) => {
     const matchesFilter =
@@ -53,12 +57,18 @@ export const ClaimList: React.FC<ClaimListProps> = ({ claims }) => {
         </div>
       </div>
 
-      {filtered.length === 0 ? (
+      {isLoading ? (
+        <div className="space-y-3">
+          {[1, 2, 3, 4].map((i) => (
+            <ClaimCardSkeleton key={i} />
+          ))}
+        </div>
+      ) : filtered.length === 0 ? (
         <div className="p-6 sm:p-8 text-center text-xs text-neutral-500 bg-white rounded-xl border border-neutral-200">
           No claims matched your search or filter.
         </div>
       ) : (
-        <div className="space-y-3">
+        <div ref={listRef} className="space-y-3">
           {filtered.map((claim) => (
             <ClaimCard key={claim.id} claim={claim} />
           ))}
