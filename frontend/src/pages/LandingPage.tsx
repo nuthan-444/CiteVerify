@@ -5,7 +5,6 @@ import { StarBorder } from '../components/ui/StarBorder';
 import {
   CheckCircle2,
   ArrowRight,
-  Sparkles,
   Layers,
   Database,
 } from 'lucide-react';
@@ -16,10 +15,6 @@ export const LandingPage: React.FC = () => {
       <div className="py-6 sm:py-12 md:py-20 max-w-5xl mx-auto space-y-14 sm:space-y-20 md:space-y-24 px-1 sm:px-4">
         {/* Hero Section */}
         <div className="text-center space-y-4 sm:space-y-6">
-          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-full bg-neutral-100 border border-neutral-300 text-black text-[11px] sm:text-xs font-semibold max-w-full truncate">
-            <Sparkles className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Next-Gen Academic Citation & Claim Auditor</span>
-          </div>
 
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-black tracking-tight leading-tight">
             Verify Academic Citations <br className="hidden sm:inline" />
